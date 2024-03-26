@@ -1,0 +1,30 @@
+version: '3.5'
+
+services:
+  ros2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ros:humble
+    volumes:
+      - .:/work
+    command: bash -c "source /opt/ros/humble/setup.bash && exec bash"
+    network_mode: host
+  build:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ros:humble
+    volumes:
+      - .:/work
+    command: bash -c "npm install && npm run build"
+    network_mode: host
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ros:humble
+    volumes:
+      - .:/work
+    command: bash -c "npm install && run test:unit"
+    network_mode: host
